@@ -13,3 +13,8 @@ CREATE TABLE users(
    loggedin BOOLEAN DEFAULT 'false'
 )
 WITHOUT OIDS
+
+CREATE TRIGGER users_insert_trigger BEFORE INSERT ON users
+  FOR EACH ROW
+  EXECUTE PROCEDURE auto_increment_users_pk();
+
