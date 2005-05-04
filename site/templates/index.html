@@ -1,20 +1,23 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
-  "http://www.w3.org/TR/html4/loose.dtd">
-
-<HTML>
-<HEAD><title>{$title}</title></HEAD>
-<BODY>
-
-<H3> Welcome to divelog! Please login to continue. </H3>
-<form action="index.php" name="login" method="POST">
-<table bgcolor="#CCCCCC">
-  <tr><td>Username: </td><td><input type="text" name="user" value=""></td>
-  <tr><td>Password: </td><td><input type="password" name="pass" value=""></td>
-  <tr colspan="2"><td><input type="submit" name="action" value="Login"></td></tr>
+<table width="80%" align="center">
+  <tr>
+  <td>
+  
+  <h1> Welcome to divelog! Please login to continue. </h1>
+  <form action="index.php" name="login" method="POST">
+  
+  <table bgcolor="#FFFFFF">
+    <tr>
+      <td>Username: </td>
+      <td><input type="text" name="user" value=""></td>
+    <tr>
+      <td>Password: </td>
+      <td><input type="password" name="pass" value=""></td>
+    <tr colspan="2">
+      <td><input type="submit" name="action" value="Login"></td>
+    </tr>
+  </table>
+  <H4> If you do not have a login, create one below. </H4>
+  <input type="submit" name="action" value="Create User">
+  </td>
+  </tr>
 </table>
-
-<H4> If you do not have a login, create one below. </H4>
-<input type="submit" name="action" value="Create User">
-
-</BODY>
-</HTML>
