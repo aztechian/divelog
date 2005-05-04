@@ -29,10 +29,10 @@ class Smarty_divelog extends Smarty {
 } //End of class Smarty_divelog
 
 class pg_db {
-	private $handle = false; //database handle for use in functions
-	private $resultSet; //used to hold temporary results (see getRow)
-	private $row;
-	private $rows = array ();
+	var $handle = false; //database handle for use in functions
+	var $resultSet; //used to hold temporary results (see getRow)
+	var $row;
+	var $rows = array ();
 
 	function pg_db() {
 		/*========================================================================
@@ -180,6 +180,34 @@ class pg_db {
 		}
 	}
 
+	function getResult($field) {
+		/*========================================================================
+		* FUNCTION: getResult($field)
+		*
+		*  Precondition:  A result set must exist (ie. a call to query())
+		*         Input:  A string holding the name of the field whose value should
+		*                 be returned.
+		*        Output:  Echoes error messages upon failure.
+		*       Returns:  A scalar value that holds the value of the field specified
+		*                 from the existing result set.
+		*   Limitations:  None.
+		*========================================================================
+		*/
+		if ($this->resultSet) {
+			$this->row = pg_fetch_result($this->resultSet,0,$field);
+			if ($this->row == 't') {
+				$this->row = true;
+			}
+			else if ($this->resultSet == 'f'){
+				$this->row = false;
+			}
+			return $this->row;
+		}
+		else {
+			return $this->problem("Can't get result without a result set");
+		}
+	}
+
 	function finish() {
 		/*========================================================================
 		* FUNCTION: finish()
@@ -228,6 +256,31 @@ class pg_db {
 		$tempSet = $this->getSingleRow();
 		pg_free_result($this->resultSet);
 		return $tempSet;
+	}
+
+	function queryResult($qstr, $field) {
+		/*========================================================================
+		* FUNCTION: queryResult($qstr,$field)
+		*
+		*         Input:  A string containing the postgreSQL SQL query to execute
+		*                 and a string containing the field name to fetch from the
+		*                 results.
+		*        Output:  None
+		*       Returns:  A scalar value holding the value of the field specified
+		*                 from the result set.
+		*   Limitations:  Only returns one value.
+		*========================================================================
+		*/
+		$this->query($qstr);
+		$returned = pg_fetch_result($this->resultSet, 0, $field);
+		if( $returned == 't' ){
+			$returned = true;   //check if we got boolean postgres values
+		}                           // and convert them to PHP booleans if needed.
+		else if( $returned == 'f' ){
+			$returned == false;
+		}
+		pg_free_result($this->resultSet);
+		return $returned;
 	}
 
 	function fullQuery($qstr) {

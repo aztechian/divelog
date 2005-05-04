@@ -3,14 +3,25 @@ include ('common.php');
 
 if (isset ($_POST['action']) AND strtoupper($_POST['action']) == "LOGIN") {
 
-	$userid = $db->getSingleRow("SELECT userid,password FROM users WHERE username='".addslashes($_POST['user'])."'");
+	$userid = $db->queryResult("SELECT sel_user_creds('".addslashes($_POST['user'])."') AS password", 'password');
 
-	if ($userid[0]['password'] == md5($_POST['pass'])) {
-		$db->fullQuery("UPDATE users SET lastvisit='NOW', loggedin='true' WHERE userid='".$userid[0]['userid']."'");
-		header('Location: welcome.php');
+	$stpl = new Smarty_divelog();  //this will be needed regardless
+	if ($userid == md5($_POST['pass'])) {
+		$sessid = $db->queryResult("SELECT do_user_login(".addslashes($_POST['user']).",'".addslashes($_REQUEST['REMOTE_ADDR'])."') AS sessionid", 'sessionid' );
+
+		$stpl->assign('title', "Welcome to divelog");
+		$stpl->assign('user', $sessid);
+		$content = $stpl->fetch('welcome.html');
+
+		$stpl->assign('content',$content);
+		$stpl->display('shell.html');
 		die('');
 	} else {
-		header('Location: index.php');
+		$stpl->assign('title', "Divelog Login");
+		$stpl->assign('login', false);
+		$content = $stpl->fetch('index.html');
+		$stpl->assign('content', $content);
+		$stpl->display('shell.html');
 		die('');
 	}
 } else {
