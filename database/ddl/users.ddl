@@ -9,7 +9,6 @@ CREATE TABLE users(
    location     TEXT,
    timezone     DECIMAL(5,2),
    regdate      TIMESTAMP(0) WITH TIME ZONE NOT NULL DEFAULT current_timestamp,
-   postcount    SMALLINT NOT NULL,
-   loggedin     BOOLEAN DEFAULT 'false'
+   postcount    SMALLINT NOT NULL
 ) WITHOUT OIDS;
 

@@ -194,16 +194,15 @@ class pg_db {
 		*========================================================================
 		*/
 		if ($this->resultSet) {
-			$this->row = pg_fetch_result($this->resultSet,0,$field);
+			$this->row = pg_fetch_result($this->resultSet, 0, $field);
 			if ($this->row == 't') {
 				$this->row = true;
-			}
-			else if ($this->resultSet == 'f'){
-				$this->row = false;
-			}
+			} else
+				if ($this->resultSet == 'f') {
+					$this->row = false;
+				}
 			return $this->row;
-		}
-		else {
+		} else {
 			return $this->problem("Can't get result without a result set");
 		}
 	}
@@ -273,12 +272,13 @@ class pg_db {
 		*/
 		$this->query($qstr);
 		$returned = pg_fetch_result($this->resultSet, 0, $field);
-		if( $returned == 't' ){
-			$returned = true;   //check if we got boolean postgres values
-		}                           // and convert them to PHP booleans if needed.
-		else if( $returned == 'f' ){
-			$returned == false;
-		}
+		if ($returned == 't') {
+			$returned = true; //check if we got boolean postgres values
+		} // and convert them to PHP booleans if needed.
+		else
+			if ($returned == 'f') {
+				$returned == false;
+			}
 		pg_free_result($this->resultSet);
 		return $returned;
 	}
@@ -322,6 +322,7 @@ class pg_db {
 $db = new pg_db(); //instantiate new db object for simplicity of "include-er"
 $db->connect();
 ?>
+
 
 
 
