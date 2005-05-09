@@ -1,26 +1,28 @@
 <?PHP
 include ('common.php');
+include_once('config.php');
 
-if (isset ($_POST['action']) AND strtoupper($_POST['action']) == "LOGIN") {
+
+if (isset ($_POST['action']) && strtoupper($_POST['action']) == "LOGIN") {
 
 	$userid = $db->queryResult("SELECT sel_user_creds('".addslashes($_POST['user'])."') AS password", 'password');
 
 	$stpl = new Smarty_divelog();  //this will be needed regardless
-	if ($userid == md5($_POST['pass'])) {
+	if (!empty($userid) && $userid == md5($_POST['pass'])) {
 		include_once('session.php');
 		
 		$db->queryResult("SELECT ins_session('".$session->getID()."') AS nothing", 'nothing');
 		
 		$sql = "SELECT do_user_login('".
 				addslashes($_POST['user'])."','".
-				addslashes($_REQUEST['REMOTE_ADDR'])."','".
+				addslashes($_SERVER['REMOTE_ADDR'])."','".
 				$session->getID()."') AS sessionid
 				";
 		$sessid = $db->queryResult($sql, 'sessionid' );
 
 		$stpl->assign('title', "Welcome to divelog");
 		$stpl->assign('name', addslashes($_POST['user']));
-		$stpl->assign('sessionname', $siteconf['sessionname'].'_id');
+		$stpl->assign('sessionname', $siteconf['cookiename'].'_id');
 		$stpl->assign('sid',$session->getID());
 		$content = $stpl->fetch('welcome.html');
 
@@ -30,14 +32,17 @@ if (isset ($_POST['action']) AND strtoupper($_POST['action']) == "LOGIN") {
 	} else {
 		$stpl->assign('title', "Divelog Login");
 		$stpl->assign('login', false);
+		$stpl->assign('badlogin',true);
 		$content = $stpl->fetch('index.html');
 		$stpl->assign('content', $content);
 		$stpl->display('shell.html');
 		die('');
 	}
 } 
-else if(isset ($_GET['action']) AND strtoupper($_GET['action']) == "LOGOUT" ){
-	
+else if(isset ($_GET['action']) && strtoupper($_GET['action']) == "LOGOUT" ){
+	$uid = $db->queryResult("SELECT session_user_id FROM sessions WHERE session_user_id='".$session->getID()."'",'session_user_id');
+	$db->queryResult("SELECT do_user_logout(".$uid.") AS nothing",'nothing');
+	$session->destroy();
 }
 else {
 	$stpl = new Smarty_divelog();

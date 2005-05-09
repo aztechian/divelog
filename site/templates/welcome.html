@@ -1,7 +1,7 @@
 <table align="center">
 <tr align="center"><td>
 Welcome {$name}, you are now logged in to DiveLog.
-<form action="{smarty.server.PHP_SELF}" method="POST" name="form1">
+<form action="{$smarty.server.PHP_SELF}" method="POST" name="form1">
    <input type="hidden" name="{$sessionname}" value="{$sid}">
    <input type="submit" name="go" value="OK">
 </form>

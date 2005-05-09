@@ -87,7 +87,7 @@ class pg_db {
 		if (!$this->handle) {
 			return $this->problem("No database connection for query.");
 		} else {
-			$this->resultSet = pg_query($qstr);
+			$this->resultSet = @pg_query($qstr);
 			if (!$this->resultSet) {
 				return $this->problem("Error during query.");
 			}
@@ -219,7 +219,11 @@ class pg_db {
 		*   Limitations:  None.
 		*========================================================================
 		*/
-		return pg_free_result($this->resultSet);
+		if( $this->resultSet )
+		   return pg_free_result($this->resultSet);
+
+		unset($this->resultSet);
+		return true;
 	}
 
 	function queryAllRows($qstr) {
@@ -312,8 +316,8 @@ class pg_db {
 		*   Limitations:  Always returns false.
 		*========================================================================
 		*/
-		echo pg_last_error()."\n";
-		echo "$txt"."\n\n";
+		//echo pg_last_error()."\n";
+		//echo "$txt"."\n\n";
 		return false;
 	}
 
@@ -322,7 +326,3 @@ class pg_db {
 $db = new pg_db(); //instantiate new db object for simplicity of "include-er"
 $db->connect();
 ?>
-
-
-
-

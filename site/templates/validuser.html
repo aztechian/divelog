@@ -1,0 +1,34 @@
+<H4>Success!</H4>
+Your account was successfully created as follows:
+<br>
+<table>
+  <tr>
+    <td>Username </td>
+    <td>{$userdata.username}</td>
+  <tr>
+  <tr>
+    <td>Email Address </td>
+    <td>{$userdata.user_email}</td>
+  <tr>
+  <tr>
+    <td>First Name </td>
+    <td>{$userdata.user_fname}</td>
+  <tr>
+  <tr>
+    <td>Last Name </td>
+    <td>{$userdata.user_lname}</td>
+  <tr>
+  <tr>
+    <td>Location </td>
+    <td>{$userdata.location}</td>
+  <tr>
+  <tr>
+    <td>Time Zone </td>
+    <td>{$userdata.timezone}</td>
+  <tr>
+</table>
+<br>
+You may now log in with your new account by returning to the <a href="index.php">divelog homepage</a>.
+<form name="redirect" action="index.php" method="POST">
+  <input type="Submit" name="submit" value="GO">
+</form>
