@@ -19,13 +19,13 @@ which=/usr/bin/which
 #
 # Set these variables if `which` does not exist on your machine
 psql=/usr/bin/psql
-dbcreate=/usr/bin/dbcreate
+dbcreate=/usr/bin/createdb
 
 #
 if [ -e $which ]
 then
    psql=`$which psql`
-   dbcreate=`$which dbcreate`
+   dbcreate=`$which createdb`
  
    dbname=$1
    dbuser=$2
@@ -36,24 +36,32 @@ else
    exit 1
 fi
 
-createdb -U postgres $dbname
-psql -U postgres -d template1 <<EOF
-  GRANT INSERT, UPDATE, SELECT, DELETE ON SCHEMA $dbname TO $dbuser;
-EOF
-
-ddl_files=(users.ddl dives.ddl dive_data.ddl rdp1.ddl rdp2.ddl rdp3.ddl)
+ddl_files=(users.ddl dives.ddl dive_data.ddl auth_access.ddl posts.ddl posts_text.ddl sessions.ddl rdp1.ddl rdp2.ddl rdp3.ddl functions.ddl)
 touch $tempfile
 
-for $i in ${ddl_files[@]}
+for i in ${ddl_files[@]}
 do
    cat ddl/$i >> $tempfile
 done
   
-psql -U $dbuser -d $dbname -f $tempfile
+echo -n "PostgreSQL superuser "
+createdb -U postgres $dbname
+echo -n "PostgreSQL superuser "
+psql -U postgres -d template1 <<EOF
+  REVOKE ALL ON SCHEMA public FROM PUBLIC CASCADE;
+  GRANT ALL ON SCHEMA public TO PUBLIC;
+  GRANT USAGE ON SCHEMA public TO $dbuser;
+
+  \i $tempfile;
+  \i privs.sql;
+EOF
+
+echo -n "PostgreSQL standard user "
 psql -U $dbuser -d $dbname <<EOF
 \copy rdp1.tab to rdp1
 \copy rdp2.tab to rdp2
 \copy rdp3.tab to rdp3
 EOF
 
+rm -f $tempfile
 exit 0;

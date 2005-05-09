@@ -1,0 +1,26 @@
+REVOKE ALL ON FUNCTION do_clear_sessions() FROM divelog;
+REVOKE ALL ON FUNCTION do_user_login(text, text, text) FROM divelog;
+REVOKE ALL ON FUNCTION do_user_logout(int4) FROM divelog;
+REVOKE ALL ON FUNCTION ins_session(text) FROM divelog;
+REVOKE ALL ON FUNCTION plpgsql_call_handler() FROM divelog;
+REVOKE ALL ON FUNCTION sel_dive_data(int4) FROM divelog;
+REVOKE ALL ON FUNCTION sel_session_expired(text) FROM divelog;
+REVOKE ALL ON FUNCTION sel_session_expired(int4) FROM divelog;
+REVOKE ALL ON FUNCTION sel_user_creds(text) FROM divelog;
+REVOKE ALL ON FUNCTION set_table_privs(text) FROM divelog;
+REVOKE ALL ON FUNCTION upd_session(text) FROM divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE dives_diveid_seq TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE posts_post_edit_count_seq TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE posts_post_id_seq TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE users_userid_seq TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE auth_access TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE dive_data TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE dives TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE posts TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE posts_text TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE rdp1 TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE rdp2 TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE rdp3 TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE sessions TO divelog;
+GRANT SELECT, UPDATE, INSERT, DELETE ON TABLE users TO divelog;
+

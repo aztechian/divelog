@@ -8,6 +8,18 @@ CREATE FUNCTION auto_increment_dives_pk() RETURNS TRIGGER AS '
 LANGUAGE plpgsql;
 */
 
+CREATE OR REPLACE FUNCTION sel_user_exists(TEXT) RETURNS boolean AS '
+DECLARE
+   name record;
+BEGIN
+   SELECT INTO name userid FROM users WHERE username=$1;
+   IF NOT FOUND THEN
+      RETURN false;
+   END IF;
+   RETURN true;
+END;
+' LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION sel_user_creds(TEXT) RETURNS TEXT AS'
 DECLARE 
    usern ALIAS FOR $1;
@@ -135,5 +147,28 @@ DECLARE
 BEGIN
    INSERT INTO sessions VALUES($1,null,curtime,exptime,null,false);
    RETURN;
+END;
+' LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION ins_user(TEXT,TEXT,TEXT,TEXT,TEXT,TEXT,INT) RETURNS int AS '
+DECLARE
+   name ALIAS FOR $1;
+   pass ALIAS FOR $2;
+   fname ALIAS FOR $3;
+   lname ALIAS FOR $4;
+   email ALIAS FOR $5;
+   loc ALIAS FOR $6;
+   tz ALIAS FOR $7;
+
+   uid int;
+   curdate timestamp := ''now'';
+BEGIN
+   INSERT INTO users(username,password,user_fname,user_lname,user_email,location,timezone,regdate,postcount)
+     VALUES(name,md5(pass),fname,lname,email,loc,tz,curdate,0);
+   IF NOT FOUND THEN
+      RETURN 0;
+   END IF;
+   SELECT INTO uid userid FROM users WHERE username=name;
+   RETURN uid;
 END;
 ' LANGUAGE plpgsql;

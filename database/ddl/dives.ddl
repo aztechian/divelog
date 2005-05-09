@@ -22,4 +22,4 @@ CREATE TABLE dives(
    safety_stop      SMALLINT
 ) WITHOUT OIDS;
 
-COMMENT ON COLUMN dives.divenum IS 'This is the sequence number of the particular divers dive.'
+COMMENT ON COLUMN dives.divenum IS 'This is the sequence number of the particular divers dive.';
