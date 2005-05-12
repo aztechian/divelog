@@ -113,14 +113,15 @@ BEGIN
 END;
 ' LANGUAGE plpgsql;
 
-CREATE OR REPLACE FUNCTION do_user_logout(INT) RETURNS void AS'
+CREATE OR REPLACE FUNCTION do_user_logout(TEXT) RETURNS void AS'
 DECLARE
-   uid ALIAS FOR $1;
-   uname text;
+   sid ALIAS FOR $1;
+   uid int;
    curtime timestamp := ''now'';
 BEGIN
-   DELETE FROM sessions WHERE session_user_id=uid;
-   UPDATE users SET loggedin=false, lastvisit=curtime WHERE userid=uid;
+   SELECT INTO uid session_user_id FROM sessions WHERE session_id=sid;
+   DELETE FROM sessions WHERE session_id=sid;
+   UPDATE users SET lastvisit=curtime WHERE userid=uid;
    RETURN;
 END;
 ' LANGUAGE plpgsql;
