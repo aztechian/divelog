@@ -1,7 +1,8 @@
 <?PHP
 include ('common.php');
-include_once('config.php');
-
+include('session.php');
+global $session;
+global $divelog;
 
 if (isset ($_POST['action']) && strtoupper($_POST['action']) == "LOGIN") {
 
@@ -20,35 +21,44 @@ if (isset ($_POST['action']) && strtoupper($_POST['action']) == "LOGIN") {
 				";
 		$sessid = $db->queryResult($sql, 'sessionid' );
 
-		$stpl->assign('title', "Welcome to divelog");
 		$stpl->assign('name', addslashes($_POST['user']));
-		$stpl->assign('sessionname', $siteconf['cookiename'].'_id');
+		$stpl->assign('sessionname', $divelog->config->siteconf['cookiename'].'_id');
 		$stpl->assign('sid',$session->getID());
 		$content = $stpl->fetch('welcome.html');
 
+		$stpl->assign('title', "Welcome to divelog");
+		$stpl->assign('login',"Logout");
 		$stpl->assign('content',$content);
 		$stpl->display('shell.html');
 		die('');
 	} else {
-		$stpl->assign('title', "Divelog Login");
 		$stpl->assign('login', false);
 		$stpl->assign('badlogin',true);
 		$content = $stpl->fetch('index.html');
+
+		$stpl->assign('title', "Divelog Login");
+		$stpl->assign('login', "Login");
 		$stpl->assign('content', $content);
 		$stpl->display('shell.html');
 		die('');
 	}
 } 
 else if(isset ($_GET['action']) && strtoupper($_GET['action']) == "LOGOUT" ){
-	$uid = $db->queryResult("SELECT session_user_id FROM sessions WHERE session_user_id='".$session->getID()."'",'session_user_id');
-	$db->queryResult("SELECT do_user_logout(".$uid.") AS nothing",'nothing');
-	$session->destroy();
+	$uid = $session->getID();
+	if( isset($uid) && $uid == "" ){
+		header("Location: index.php");
+		die('');
+	}
+	$session->destroy($uid);
+	header("Location: index.php");
+	die('');
 }
 else {
 	$stpl = new Smarty_divelog();
-	$stpl->assign('title', "Divelog Login");
 	$content = $stpl->fetch('index.html'); //get and parse the main "content" of the page
 
+	$stpl->assign('title', "Divelog Login");
+	$stpl->assign('login', "Login");
 	$stpl->assign('content', $content); //this puts the "content" of the page into the main layout template
 	$stpl->display('shell.html');
 }

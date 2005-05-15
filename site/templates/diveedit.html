@@ -1,0 +1,70 @@
+<form name="dive" method="POST" action="{$smarty.server.PHP_SELF}?action=add">
+<div align="center">Dive date: {html_select_date}
+<br><br>Dive Description: <input type="text" size="50" name="description" value="{$description}"></div>
+<br>
+<table align="center" width="100%">
+  <tr>
+    <td align="right">Surface Water Temp: </td>
+    <td><input type="text" size="3" maxlength="3" name="water_temp" value="{$water_temp}">*F</td>
+    <td>&nbsp;</td>
+    <td align="right">Visibility: </td>
+    <td><input type="text" size="5" maxlength="4" name="vis" value="{$vis}"> ft.</td>
+  </tr>
+  <tr>
+    <td align="right">Weight used: </td>
+    <td><input type="text" size="3" maxlength="2" name="weight" value="{$weight}">Lb.</td>
+    <td>&nbsp;</td>
+    <td align="right">Wind speed: </td>
+    <td><input type="text" size="3" maxlength="3" name="winds" value="{$winds}">Mph</td>
+  </tr>
+  <tr>
+    <td align="right">Wave Height: </td>
+    <td><input type="text" size="4" maxlength="2" name="waves" value="{$waves}">ft.</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td align="right">City: </td>
+    <td><input type="text" size="15" name="city" value="{$city}"></td>
+    <td>&nbsp;</td>
+    <td align="right">State: </td>
+    <td><input type="text" size="15" name="state" value="{$state}"></td>
+  </tr>
+  <tr>
+    <td align="right">Country: </td>
+    <td><input type="text" size="15" name="country" value="{$country}"></td>
+    <td>&nbsp;</td>
+    <td align="right">Coordinates: </td>
+    <td><input type="text" size="10" maxlength="8" name="coord_lat" value="{$coord_lat}">*Lat
+        <input type="text" size="10" maxlength="8" name="coord_lon" value="{$coord_lon}">*Lon</td>
+  </tr>
+  <tr>
+    <td align="right">Start time (local time): </td>
+    <td><input type="text" size="10" maxlength="8" name="start_time" value="{$start_time}">(HH:MM)</td>
+    <td>&nbsp;</td>
+    <td align="right">End time (local time): </td>
+    <td><input type="text" size="10" maxlength="8" name="end_time" value="{$end_time}">(HH:MM)</td>
+  </tr>
+  <tr>
+    <td align="right">Depth: </td>
+    <td><input type="text" size="3" maxlength="5" name="depth" value="{$depth}">Ft</td>
+    <td>&nbsp;</td>
+    <td align="right">Bottom Time: </td>
+    <td><input type="text" size="10" maxlength="8" name="bottom_time" value="{$bottom_time}">(HH:MM)</td>
+  </tr>
+</table>
+<p></p>
+<div align="center">Comments:<textarea name="comments" rows="7" cols="40">{$comments}</textarea><br><br>
+  <input type="hidden" name="uid" value="{$userid}">
+  <input type="hidden" name="username" value="{$username}">
+  <input type="submit" name="submit" value="Add Dive">
+</div>
+</form>
