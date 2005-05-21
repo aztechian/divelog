@@ -1,3 +1,12 @@
+--#########################################################################
+--   Divelog PostgreSQL database functions.
+--             $svn:author$
+--       $divelog:copyright$
+--            $svn:date$
+/* $svn:log$
+*/
+--#########################################################################
+
 --/////////////////////////////////////////////////////////////////////////
 --   FUNCTION: do_user_login
 --   Input:    The username of the user to log in, The IP address of the

@@ -1,3 +1,12 @@
+--#########################################################################
+--   Divelog PostgreSQL database functions.
+--             $svn:author$
+--       $divelog:copyright$
+--            $svn:date$
+/* $svn:log$
+*/
+--#########################################################################
+
 --/////////////////////////////////////////////////////////////////////////
 --   FUNCTION: ins_session
 --   Input:    The session ID that should be created in the sessions table.

@@ -1,3 +1,20 @@
+--#########################################################################
+--   Divelog PostgreSQL database functions.
+--             $svn:author$
+--       $divelog:copyright$
+--            $svn:date$
+/* $svn:log$
+*/
+--#########################################################################
+
+--/////////////////////////////////////////////////////////////////////////
+--   FUNCTION: sel_has_previous_dives
+--   Input:
+--   Output:
+--   Returns:
+--
+--/////////////////////////////////////////////////////////////////////////
+
 CREATE OR REPLACE FUNCTION sel_has_previous_dives(INT,TIMESTAMP) RETURNS boolean AS '
 DECLARE
    uid ALIAS FOR $1;

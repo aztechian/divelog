@@ -1,3 +1,12 @@
+--#########################################################################
+--   Divelog PostgreSQL database functions.
+--             $svn:author$
+--       $divelog:copyright$
+--            $svn:date$
+/* $svn:log$
+*/
+--#########################################################################
+
 --/////////////////////////////////////////////////////////////////////////
 --   FUNCTION: ins_user
 --   Input:    The username to be created, the clear-text password to be

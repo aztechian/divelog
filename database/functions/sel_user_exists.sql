@@ -1,3 +1,12 @@
+--#########################################################################
+--   Divelog PostgreSQL database functions.
+--             $svn:author$
+--       $divelog:copyright$
+--            $svn:date$
+/* $svn:log$
+*/
+--#########################################################################
+
 --/////////////////////////////////////////////////////////////////////////
 --   FUNCTION: sel_user_exists
 --   Input:    The username of the user to be determined it is valid

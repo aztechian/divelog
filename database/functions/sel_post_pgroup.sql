@@ -1,5 +1,19 @@
+--#########################################################################
+--   Divelog PostgreSQL database functions.
+--             $svn:author$
+--       $divelog:copyright$
+--            $svn:date$
+/* $svn:log$
+*/
+--#########################################################################
+
+--/////////////////////////////////////////////////////////////////////////
+--   FUNCTION: sel_post_pgroup
+--   Input:
+--   Output:
+--   Returns:
 --
---
+--/////////////////////////////////////////////////////////////////////////
 CREATE OR REPLACE FUNCTION sel_post_pgroup(CHAR(1),INTERVAL HOUR to MINUTE, INT) RETURNS CHAR(1) AS '
 DECLARE
    beg_pg ALIAS FOR $1;

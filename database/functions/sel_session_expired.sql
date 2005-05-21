@@ -1,3 +1,12 @@
+--#########################################################################
+--   Divelog PostgreSQL database functions.
+--             $svn:author$
+--       $divelog:copyright$
+--            $svn:date$
+/* $svn:log$
+*/
+--#########################################################################
+
 --/////////////////////////////////////////////////////////////////////////
 --   FUNCTION: sel_session_expired
 --   Input:    The integer representing a users' ID.
