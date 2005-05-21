@@ -11,7 +11,7 @@
 #  person doing the install, but it can also be run on its own.
 #
 #  This script assumes that there is alread a user set up for this
-#  purpose and that it has the CREATE priviledge in the database.
+#  purpose and that it has the CREATE privilege in the database.
 ##################################################################
 ##################################################################
 
@@ -47,20 +47,22 @@ done
 echo -n "PostgreSQL superuser "
 createdb -U postgres $dbname
 echo -n "PostgreSQL superuser "
+createuser -D -A -U postgres $dbuser
+createlang -d template1 -U postgres plpgsql
 psql -U postgres -d template1 <<EOF
   REVOKE ALL ON SCHEMA public FROM PUBLIC CASCADE;
   GRANT ALL ON SCHEMA public TO PUBLIC;
   GRANT USAGE ON SCHEMA public TO $dbuser;
-
+  \c $dbname
   \i $tempfile;
   \i privs.sql;
 EOF
 
 echo -n "PostgreSQL standard user "
 psql -U $dbuser -d $dbname <<EOF
-\copy rdp1.tab to rdp1
-\copy rdp2.tab to rdp2
-\copy rdp3.tab to rdp3
+\copy rdp1 from rdp1.tab
+\copy rdp2 from rdp2.tab
+\copy rdp3 from rdp3.tab
 EOF
 
 rm -f $tempfile
