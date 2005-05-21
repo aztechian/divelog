@@ -2,6 +2,10 @@
   <tr>
   <td>
   
+  {if $errordb == true}
+  	<h3> Error: {$errortext} </h3>
+  {/if}
+  
   {if $badlogin==true}
      <h3> Incorrect login. Bad user name or password. <br> Please try again.</H3>
   {else}

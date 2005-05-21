@@ -55,6 +55,12 @@ else if(isset ($_GET['action']) && strtoupper($_GET['action']) == "LOGOUT" ){
 }
 else {
 	$stpl = new Smarty_divelog();
+	//do some testing to make sure the db stuff is on
+	if ($db->error) {
+		//echo "We have an error " . $db->error;
+		$stpl->assign('errordb', true);
+		$stpl->assign('errortext', $db->error);
+	}
 	$content = $stpl->fetch('index.html'); //get and parse the main "content" of the page
 
 	$stpl->assign('title', "Divelog Login");

@@ -31,6 +31,7 @@ class Smarty_divelog extends Smarty {
 class pg_db {
 	var $handle = false; //database handle for use in functions
 	var $resultSet; //used to hold temporary results (see getRow)
+	var $error;
 	var $row;
 	var $rows = array ();
 
@@ -60,7 +61,8 @@ class pg_db {
 		 *========================================================================
 		 */
 		include ('config.php');
-		$db = pg_connect("host=".$dbconf['host']." port=".$dbconf['port']." user=".$dbconf['name']." password=".$dbconf['pass']." dbname=".$dbconf['db']);
+		$this->error = '';
+		$db = @pg_connect("host=".$dbconf['host']." port=".$dbconf['port']." user=".$dbconf['name']." password=".$dbconf['pass']." dbname=".$dbconf['db']);
 
 		if (!$db) {
 			return $this->problem("Could not connect to database! Check configuration.");
@@ -84,6 +86,7 @@ class pg_db {
 		 *                 for details.
 		 *========================================================================
 		 */
+		$this->error = '';
 		if (!$this->handle) {
 			return $this->problem("No database connection for query.");
 		} else {
@@ -108,6 +111,7 @@ class pg_db {
 		 *   Limitations:  None.
 		 *========================================================================
 		 */
+		$this->error = '';
 		if ($this->resultSet) {
 			return pg_num_rows($this->resultSet);
 		} else {
@@ -128,6 +132,7 @@ class pg_db {
 		 *   Limitations:  None.
 		 *========================================================================
 		 */
+		$this->error = '';
 		if ($this->resultSet) {
 			return pg_num_cols($this->resultSet);
 		} else {
@@ -147,6 +152,7 @@ class pg_db {
 		 *   Limitations:  None.
 		 *========================================================================
 		 */
+		$this->error = '';
 		if ($this->resultSet) {
 			$this->rows = NULL;
 			$tempRow = '';
@@ -172,6 +178,7 @@ class pg_db {
 		 *   Limitations:  None.
 		 *========================================================================
 		 */
+		$this->error = '';
 		if ($this->resultSet) {
 			$this->row = pg_fetch_array($this->resultSet);
 			return $this->row;
@@ -193,6 +200,7 @@ class pg_db {
 		*   Limitations:  None.
 		*========================================================================
 		*/
+		$this->error = '';
 		if ($this->resultSet) {
 			$this->row = pg_fetch_result($this->resultSet, 0, $field);
 			if ($this->row == 't') {
@@ -219,6 +227,7 @@ class pg_db {
 		*   Limitations:  None.
 		*========================================================================
 		*/
+		$this->error = '';
 		if( $this->resultSet )
 		   return pg_free_result($this->resultSet);
 
@@ -237,6 +246,7 @@ class pg_db {
 		*   Limitations:  None
 		*========================================================================
 		*/
+		$this->error = '';
 		$this->query($qstr);
 		$tempSet = $this->getAllRows();
 		pg_free_result($this->resultSet);
@@ -255,6 +265,7 @@ class pg_db {
 		*   Limitations:  None
 		*========================================================================
 		*/
+		$this->error = '';
 		$this->query($qstr);
 		$tempSet = $this->getSingleRow();
 		pg_free_result($this->resultSet);
@@ -274,6 +285,7 @@ class pg_db {
 		*   Limitations:  Only returns one value.
 		*========================================================================
 		*/
+		$this->error = '';
 		$this->query($qstr);
 		$returned = pg_fetch_result($this->resultSet, 0, $field);
 		if ($returned == 't') {
@@ -298,6 +310,7 @@ class pg_db {
 		*   Limitations:  Does not return the status of the query itself.
 		*========================================================================
 		*/
+		$this->error = '';
 		$this->query($qstr);
 		return pg_free_result($this->resultSet);
 	}
@@ -313,16 +326,22 @@ class pg_db {
 		*                 state, thus it always returns false to indicate this
 		*                 and for ease of use by the calling function. This
 		*                 function can be returned directly from the calling function.
-		*   Limitations:  Always returns false.
+		*   Limitations:  Always returns false. Will overwrite previous errors.
 		*========================================================================
 		*/
+		//cannot always do this here because the HTML might not be started yet
+		//as a result this would get put in with the headers -> warning
+		$this->error = @pg_last_error() . $txt;
 		//echo pg_last_error()."\n";
-		//echo "$txt"."\n\n";
+		//echo '<p>' . "$txt"."\n\n";
 		return false;
 	}
 
 } //end of class pg_db
 
+//might want to check and see if we do not have an open connection ...
+//the db connection handle could be stored in the session also to limit db hammer
 $db = new pg_db(); //instantiate new db object for simplicity of "include-er"
 $db->connect();
+
 ?>
