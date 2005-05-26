@@ -1,16 +1,16 @@
 <?PHP
 include ('common.php');
-include('session.php');
-global $session;
+include ('session.php');
+//global $session;
 global $divelog;
 
 if (isset ($_POST['action']) && strtoupper($_POST['action']) == "LOGIN") {
-
+	
 	$userid = $db->queryResult("SELECT sel_user_creds('".addslashes($_POST['user'])."') AS password", 'password');
 
 	$stpl = new Smarty_divelog();  //this will be needed regardless
 	if (!empty($userid) && $userid == md5($_POST['pass'])) {
-		include_once('session.php');
+		//include_once('session.php');
 		
 		$db->queryResult("SELECT ins_session('".$session->getID()."') AS nothing", 'nothing');
 		
@@ -31,6 +31,7 @@ if (isset ($_POST['action']) && strtoupper($_POST['action']) == "LOGIN") {
 		$stpl->assign('content',$content);
 		$stpl->display('shell.html');
 		die('');
+		
 	} else {
 		$stpl->assign('login', false);
 		$stpl->assign('badlogin',true);
@@ -44,6 +45,8 @@ if (isset ($_POST['action']) && strtoupper($_POST['action']) == "LOGIN") {
 	}
 } 
 else if(isset ($_GET['action']) && strtoupper($_GET['action']) == "LOGOUT" ){
+	
+	echo 'Logout called';
 	$uid = $session->getID();
 	if( isset($uid) && $uid == "" ){
 		header("Location: index.php");
@@ -54,6 +57,7 @@ else if(isset ($_GET['action']) && strtoupper($_GET['action']) == "LOGOUT" ){
 	die('');
 }
 else {
+	
 	$stpl = new Smarty_divelog();
 	//do some testing to make sure the db stuff is on
 	if ($db->error) {

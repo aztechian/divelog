@@ -1,6 +1,7 @@
 <?PHP
 define('SMARTY_DIR', '/usr/local/lib/php/Smarty/');
 require (SMARTY_DIR.'Smarty.class.php');
+include ('config.php');
 
 class Smarty_divelog extends Smarty {
 	/* This class is for using the Smarty template system.
@@ -47,7 +48,7 @@ class pg_db {
 		 */
 	}
 
-	function connect() {
+	function connect($dbconf) {
 		/*========================================================================
 		 * FUNCTION: connect()
 		 *
@@ -60,8 +61,11 @@ class pg_db {
 		 *   Limitations:  None
 		 *========================================================================
 		 */
-		include ('config.php');
+
 		$this->error = '';
+		if (!is_array($dbconf)){
+			return $this->problem('Config array missing');
+		}
 		$db = @pg_connect("host=".$dbconf['host']." port=".$dbconf['port']." user=".$dbconf['name']." password=".$dbconf['pass']." dbname=".$dbconf['db']);
 
 		if (!$db) {
@@ -336,6 +340,6 @@ class pg_db {
 //might want to check and see if we do not have an open connection ...
 //the db connection handle could be stored in the session also to limit db hammer
 $db = new pg_db(); //instantiate new db object for simplicity of "include-er"
-$db->connect();
+$db->connect($dbconf);
 
 ?>
