@@ -187,7 +187,7 @@ class pg_db {
 		}
 	}
 
-	function getResult($field) {
+	function getResult($field=0) {
 		/*========================================================================
 		* FUNCTION: getResult($field)
 		*
@@ -205,12 +205,13 @@ class pg_db {
 			$this->row = pg_fetch_result($this->resultSet, 0, $field);
 			if ($this->row == 't') {
 				$this->row = true;
-			} else
-				if ($this->resultSet == 'f') {
-					$this->row = false;
-				}
+			}
+			else if ($this->row == 'f') {
+				$this->row = false;
+			}
 			return $this->row;
-		} else {
+		}
+		else {
 			return $this->problem("Can't get result without a result set");
 		}
 	}
@@ -249,7 +250,7 @@ class pg_db {
 		$this->error = '';
 		$this->query($qstr);
 		$tempSet = $this->getAllRows();
-		pg_free_result($this->resultSet);
+		$this->finish();
 		return $tempSet;
 	}
 
@@ -268,11 +269,11 @@ class pg_db {
 		$this->error = '';
 		$this->query($qstr);
 		$tempSet = $this->getSingleRow();
-		pg_free_result($this->resultSet);
+		$this->finish();
 		return $tempSet;
 	}
 
-	function queryResult($qstr, $field) {
+	function queryResult($qstr, $field=0) {
 		/*========================================================================
 		* FUNCTION: queryResult($qstr,$field)
 		*
@@ -287,16 +288,9 @@ class pg_db {
 		*/
 		$this->error = '';
 		$this->query($qstr);
-		$returned = pg_fetch_result($this->resultSet, 0, $field);
-		if ($returned == 't') {
-			$returned = true; //check if we got boolean postgres values
-		} // and convert them to PHP booleans if needed.
-		else
-			if ($returned == 'f') {
-				$returned == false;
-			}
-		pg_free_result($this->resultSet);
-		return $returned;
+		$this->getResult($field); //set the $this->row variable for returning
+		$this->finish();
+		return $this->row;
 	}
 
 	function fullQuery($qstr) {
@@ -312,7 +306,7 @@ class pg_db {
 		*/
 		$this->error = '';
 		$this->query($qstr);
-		return pg_free_result($this->resultSet);
+		return $this->finish();
 	}
 
 	function problem($txt) {
