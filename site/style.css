@@ -1,100 +1,14 @@
-.nav {
-
+h1, h2, h3, h4 {
 	font-family: Arial, Helvetica, sans-serif;
-	font-size: small;
-	font-style: normal;
 	font-variant: small-caps;
 	color: 6CAFD6;
-	background-position: right;
-	letter-spacing: 3px;
-	cursor: hand;
-}
-#button {
-	padding: 0 0 0 0; 
-
-	margin-bottom: 2px;
-
-	font-family: "Arial", "Helvetica", "sans-serif";
-
-	background-color: #FFFFFF;
-
-}
-
-
-
-#button ul {
-
-	list-style: none;
-
-	margin: 0;
-
-	padding: 0;
-
-	border: none;
-
-	border-top: 0;
-
-}
-
-                
-
-#button li {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: small;
-	font-style: normal;
-	font-variant: small-caps;
-	margin: 0;
-
-}
-
-
-
-#button li a {
-
-	display: block;
-
-	padding: 2px 2px 2px 7px;
-
-	background-color: #FFFFFF;
-
-	color: #6CAFD6;
-
-	text-decoration: none;
-
-	width: 100%;
-
-	border-bottom: 0;
-
-	font-size: 12px;
-
-}
-
-#button li a:hover {
-
-	font-family: "Arial", "Helvetica", "sans-serif";
-
-	font-size: 12px;
-
-	color: #FFFFFF;
-
-	background-color: #6CAFD6;
-
-	text-decoration: none;
-
-}
-h1 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 36px;
-	font-weight: bolder;
-	font-variant: small-caps;
-	color: 6CAFD6;
-	letter-spacing: 3px;
 }
 body {
+	background-color: #DAE2E3;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: medium;
 	font-weight: normal;
-	color: 6CAFD6;
+	color: 333333;
 }
 input {
 	font-family: Arial, Helvetica, sans-serif;
@@ -102,4 +16,64 @@ input {
 	color: #666666;
 	background-color: 6cafd6;
 	letter-spacing: 1px;
+}
+
+div#button {
+	width: 100%;
+
+	margin-bottom: 0px;
+
+	background-color: #FFFFFF;
+
+	cursor: hand;
+	
+	white-space: nowrap;
+}
+
+
+
+div#button ul {
+
+	margin: 4;
+
+	padding: 0 0 0 0;
+
+	border: none;
+
+	font-family: "Arial", "Helvetica", "sans-serif";
+	font-size: small;
+	font-style: normal;
+	font-variant: small-caps;
+
+}
+
+                
+
+div#button li {
+	list-style-type: none;
+}
+
+
+
+div#button li a {
+
+	display: block;
+
+	padding: 2px 2px 2px 2px;
+
+	border-bottom: 0;
+
+	background-color: #FFFFFF;
+
+	color: #6CAFD6;
+
+	text-decoration: none;
+}
+
+div#button li a:hover {
+
+	color: #FFFFFF;
+
+	background-color: #6CAFD6;
+
 }
