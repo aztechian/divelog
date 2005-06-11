@@ -9,10 +9,12 @@ DECLARE
 BEGIN
    SELECT INTO has_dives sel_has_previous_dives(uid,searchtime);
    IF NOT has_dives THEN
-      RETURN 'A';
+      RETURN ''A'';
    END IF;
 
-
-   FOR dive_recs IN SELECT * FROM dives WHERE userid=uid AND time_out > searchtime - INTERVAL'6 Hour' ORDER BY time_out ASC LOOP
-
+   FOR dive_recs IN SELECT * FROM dives WHERE userid = uid ORDER BY diveid LOOP
+	SELECT INTO pg sel_post_pgroup(pg,dive_recs.time_out-dive_recs.time_in,dive_recs.depth);
+   END LOOP;
+END;
+' LANGUAGE plpgsql;
 

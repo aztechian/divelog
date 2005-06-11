@@ -64,7 +64,7 @@ else{  //default to a new record
    
    $content = $stpl->fetch('diveedit.html');
    $stpl->assign('title', "divelog entry for ". $user['username']);
-   $stpl->assign('login',"Logout");
+   $stpl->assign('login', (is_array($user))?"Logout" : "Login" );
    $stpl->assign('content',$content);
    $stpl->display('shell.html');
 }
