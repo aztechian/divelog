@@ -1,3 +1,20 @@
+--#########################################################################
+--   Divelog PostgreSQL database functions.
+--             $svn:author$
+--       $divelog:copyright$
+--            $svn:date$
+/* $svn:log$
+*/
+--#########################################################################
+
+--/////////////////////////////////////////////////////////////////////////
+--   FUNCTION: sel_curr_pgroup
+--   Input:
+--   Output:
+--   Returns:
+--
+--/////////////////////////////////////////////////////////////////////////
+
 CREATE OR REPLACE FUNCTION sel_curr_pgroup(INT,TIMESTAMP) RETURNS CHAR(1) AS '
 DECLARE
    uid ALIAS FOR $1;
