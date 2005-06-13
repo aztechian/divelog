@@ -337,6 +337,44 @@ class pg_db {
 
 } //end of class pg_db
 
+function unslash_arr($input) {
+	if ( !get_magic_quotes_gpc() || ( !is_string($input) && !is_array($input) ) ){
+		return $input;
+	}
+
+	if ( is_string($input) ){
+       $output = stripslashes($input);
+	}
+	elseif ( is_array($input) ){
+		$output = array();
+		foreach ($input as $key => $val){
+			$new_key = stripslashes($key);
+			$new_val = unslash_arr($val);
+			$output[$new_key] = $new_val;
+		}
+	}
+	return $output;
+}
+
+function slash_arr($input) {
+	if ( !get_magic_quotes_gpc() || ( !is_string($input) && !is_array($input) ) ){
+		return $input;
+	}
+
+	if ( is_string($input) ){
+       $output = addslashes($input);
+	}
+	elseif ( is_array($input) ){
+		$output = array();
+		foreach ($input as $key => $val){
+			$new_key = addslashes($key);
+			$new_val = slash_arr($val);
+			$output[$new_key] = $new_val;
+		}
+	}
+	return $output;
+}
+
 //might want to check and see if we do not have an open connection ...
 //the db connection handle could be stored in the session also to limit db hammer
 $db = new pg_db(); //instantiate new db object for simplicity of "include-er"

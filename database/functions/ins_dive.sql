@@ -15,7 +15,7 @@
 --   Returns:
 --
 --/////////////////////////////////////////////////////////////////////////
-/*CREATE OR REPLACE FUNCTION ins_dive(INT,TIMESTAMP,TIMESTAMP,INT,INT,INT,INT,INT,INT,TEXT,TEXT,TEXT,TEXT,TEXT,POINT,INTERVAL HOUR to MINUTE,INT) AS '
+CREATE OR REPLACE FUNCTION ins_dive(INT,TIMESTAMP,TIMESTAMP,INT,INT,INT,INT,INT,INT,TEXT,TEXT,TEXT,TEXT,TEXT,POINT,INTERVAL HOUR to MINUTE,INT) RETURNS VOID AS '
 DECLARE
    uid          ALIAS FOR $1;
    start        ALIAS FOR $2;
@@ -35,26 +35,25 @@ DECLARE
    bt           ALIAS FOR $16;
    safety_stop  ALIAS FOR $17;
 
+   pg_in, pg_out CHAR(1);
    dive_id int;
    newrec dives%ROWTYPE;
 BEGIN
-   INSERT INTO dives(userid,surface_temp,visability,weight,windspeed,waves,comments,description,location_city,location_state,location_country,location_coords,time_in,time_out,depth,bottom_time,safety_stop)
-   VALUES( uid, null, surface_temp, vis, weight, windspeed, waves, comment, desc, city, state, country, coords, start, end, depth, bt, safety_stop );
+   IF uid = '''' OR start = '''' OR end = '''' OR depth = '''' THEN
+      RAISE EXCEPTION ''Required fields were not given for inserting a new dive'';
+   END IF;
 
-   SELECT INTO dive_id currval('dives_diveid_seq');
-   SELECT INTO newrec * FROM dives WHERE diveid=dive_id;
-   IF newrec.bottom_time IS NULL THEN
-      UPDATE dives SET bottom_time=(newrec.time_out - newrec.time_in)::INTERVAL HOUR to MINUTE WERE diveid=dive_id;
+   IF bt IS NULL THEN
+      bt := (end - start)::INTERVAL HOUR to MINUTE;
    END IF;
-   IF newrec.press_group_in IS NULL THEN
-      UPDATE dives SET press_group_in=sel_curr_pgroup(newrec.time_in) WHERE diveid=dive_id;
-   END IF;
-   IF newrec.press_group_out IS NULL THEN
-      UPDATE dives SET press_group_out=sel_post_pgroup(newrec.time_out,depth,bt) WHERE diveid=dive_id;
-   END IF;
+   
+   pg_in := sel_curr_pgroup(uid,start);
+   pg_out := sel_post_pgroup(pg_in,(end-start)::INTERVAL HOUR to MINUTE,depth);
    -- Incomplete. Finish doing checks and need functions for pressure groups. Set up return values.
+   INSERT INTO dives(userid,surface_temp,visability,weight,windspeed,waves,comments,description,location_city,location_state,location_country,location_coords,time_in,time_out,press_group_in,press_group_out,depth,bottom_time,safety_stop)
+   VALUES( uid, null, surface_temp, vis, weight, windspeed, waves, comment, desc, city, state, country, coords, start, end, pg_in, pg_out, depth, bt, safety_stop );
+   
    RETURN;
 END;
 ' LANGUAGE plpgsql;
-*/
 

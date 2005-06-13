@@ -20,7 +20,8 @@ DECLARE
    uid ALIAS FOR $1;
    searchtime ALIAS FOR $2;
 BEGIN
-   SELECT diveid FROM dives WHERE userid=uid AND time_out > searchtime - INTERVAL'6 Hour';
+   PERFORM diveid FROM dives WHERE userid=uid AND time_out BETWEEN (searchtime - INTERVAL''6 Hour'')
+   		AND searchtime;
    IF FOUND THEN
       RETURN true;
    ELSE

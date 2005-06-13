@@ -21,20 +21,28 @@ DECLARE
    depth ALIAS FOR $3;
 
    tmp_bt interval hour to minute;
-   end_pg char(1);
+   end_pg char(1) := '''';
 BEGIN
    IF beg_pg = '''' THEN
-      RETURN MIN(pressure_group)
+      SELECT INTO end_pg MIN(pressure_group)
              FROM rdp1
              WHERE rdp1.depth >= depth
              AND rdp1.time >= time;
+   ELSE
+      SELECT INTO end_pg MIN(pressure_group)
+         FROM rdp1
+         WHERE rdp1.depth >= depth
+         AND rdp1.time >= time + (
+           SELECT sel_residual(beg_pg,depth)
+         );
    END IF;
-   RETURN MIN(pressure_group)
-          FROM rdp1
-          WHERE rdp1.depth >= depth
-          AND rdp1.time >= time + (
-            SELECT sel_residual(beg_pg,depth)
-          );
+   /*This function should return a blank to indicate that the diver went over the no-deco
+     limit, rather than just defaulting to a Z
+   */
+   --IF end_pg = '''' OR end_pg IS NULL THEN
+   --   end_pg := ''Z'';
+   --END IF;
+   RETURN end_pg;
 END;
 ' LANGUAGE plpgsql;
 

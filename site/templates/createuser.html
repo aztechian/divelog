@@ -1,33 +1,40 @@
 <form action="{$smarty.server.PHP_SELF}" name="userdata" method="POST">
+    {if $name_exists}
+		<div align="center" style="color:#993300; font-style:italic">A user with that name already exists. Please choose a different username.</div>
+    {elseif count($badfields) gt 0}
+	<div align="center" style="color:#993300 font-style:italic">
+    	    Your submission was incomplete. Please fill in the highlighted fields below.<br>
+	</div>
+	<p>&nbsp;</p>
+    {/if}
   <table align="center">
     <tr>
       <td>
-	Desired Username
-      </td>
-      <td><input type="text" name="username" value="{**}"></td>
+	    <div align="right">Desired Username </div></td>
+      <td><input type="text" name="username" value="{$values.username}" {if $name_exists || $badfields.username}style="background-color:#993300; color:#FFFFFF" {/if}></td>
     </tr>
     <tr>
-      <td>Password </td>
-      <td><input type="password" name="password" value="{**}"></td>
+      <td><div align="right">Password </div></td>
+      <td><input type="password" name="password" value="{$values.password}" {if $badfields.password}style="background-color:#993300; color:#FFFFFF" {/if}></td>
     </tr>
     <tr>
-      <td>Email Address </td>
-      <td><input type="text" name="email" value="{**}"></td>
+      <td><div align="right">Email Address </div></td>
+      <td><input type="text" name="email" value="{$values.email}" {if $badfields.email}style="background-color:#993300; color:#FFFFFF" {/if}></td>
     </tr>
     <tr>
-      <td>First Name </td>
-      <td><input type="text" name="fname" value="{**}"></td>
+      <td><div align="right">First Name </div></td>
+      <td><input type="text" name="fname" value="{$values.fname}" {if $badfields.fname}style="background-color:#993300; color:#FFFFFF" {/if}></td>
     </tr>
     <tr>
-      <td>Last Name </td>
-      <td><input type="text" name="lname" value="{**}"></td>
+      <td><div align="right">Last Name </div></td>
+      <td><input type="text" name="lname" value="{$values.lname}" {if $badfields.lname}style="background-color:#993300; color:#FFFFFF" {/if}></td>
     </tr>
     <tr>
-      <td>Location </td>
-      <td><input type="text" name="location" value="{**}"></td>
+      <td><div align="right">Location </div></td>
+      <td><input type="text" name="location" value="{$values.location}"></td>
     </tr>
     <tr>
-      <td>Timezone </td>
+      <td><div align="right">Timezone </div></td>
       <td>{html_options values=$timezones output=$timezones selected='0' name='timezone'}</td>
     </tr>
   </table>

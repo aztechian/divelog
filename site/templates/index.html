@@ -9,22 +9,24 @@
   {if $badlogin==true}
      <h3> Incorrect login. Bad user name or password. <br> Please try again.</H3>
   {else}
-     <h1> Welcome to divelog! Please login to continue. </h1>
+     <h2> Welcome to divelog! Please login to continue. </h2>
   {/if}
   
-  <table bgcolor="#FFFFFF">
   <form action="index.php" name="login" method="POST">
+  <table>
     <tr>
       <td>Username: </td>
       <td><input type="text" name="user" value=""></td>
     <tr>
       <td>Password: </td>
       <td><input type="password" name="pass" value=""></td>
-    <tr colspan="2">
-      <td><input type="submit" name="action" value="Login"></td>
+    <tr	>
+	  <td>&nbsp;</td>
+      <td align="center"><input type="submit" name="action" value="Login"></td>
     </tr>
-  </form>
   </table>
+</form>
+
   <H4> If you do not have a login, create one below. </H4>
   <form action="createuser.php" name="login" method="POST">
      <input type="submit" name="redirect" value="Create new User">
