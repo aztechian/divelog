@@ -2,7 +2,7 @@
 
 work_dir=`pwd`
 
-file_list="common.php config.php createuser.php images index.php session.php style.css test.php diveedit.php"
+file_list="common.php config.php createuser.php images index.php session.php style.css test.php diveedit.php login.php recent.php logout.php"
 
 for i in $file_list
 do

@@ -1,10 +1,12 @@
 <?PHP
 include_once ('config.php');
+include_once ('common.php');
 class Session {
 	var $sessionid;
+	var $loggedin;
 
 	function Session($siteconfig, $ses = '') {
-		
+		global $db;
 		if(is_array($siteconfig)) {
 			$siteconf = $siteconfig;
 		}
@@ -52,6 +54,8 @@ class Session {
 			//$_COOKIE[$siteconf['cookiename'].'_id'] = $this->sessionid;
 			//forced add -- not a good idea
 		}
+		//init this variable to false because the user has not been authenticated yet
+		$this->loggedin = $db->queryResult("SELECT sel_session_auth('".$this->sessionid."')");
 	}
 
 	function update($siteconfig) {
@@ -75,6 +79,7 @@ class Session {
 	}
 
 	function destroy($uid = '') {
+		global $db;
 		$result = $db->queryResult("SELECT do_user_logout(".$uid.") AS done", 'done');
 		return true;
 	}
@@ -82,9 +87,35 @@ class Session {
 	function getID(){
 		return $this->sessionid;
 	}
+
+	function getAuthStatus(){
+		return $this->loggedin;
+	}
+
+	function setAuthStatus($st = false){
+		global $db;
+		if( !is_bool($st) ){
+			$this->loggedin = false;
+			return false;
+		}
+		if( $st ){
+			$db->queryResult("SELECT ins_session('".$this->sessionid."')");
+			$db->queryResult("SELECT do_user_login('".
+						addslashes($_POST['user'])."','".
+						addslashes($_SERVER['REMOTE_ADDR'])."','".
+						$this->sessionid."')" );
+			$this->loggedin = true;
+			return true;
+		}
+		else{
+			$db->queryResult("SELECT ins_session('".$this->sessionid."')");
+			$this->loggedin = false;
+			return true;
+		}
+	}
 }
 
-$session =& new Session($siteconf, $_GET[$siteconf['cookiename'].'_id']);
+$session =& new Session($siteconf, isset($_GET[$siteconf['cookiename'].'_id'])? $_GET[$siteconf['cookiename'].'_id']:'');
 //might want to check and see if we have a session at all ..
 
 ?>

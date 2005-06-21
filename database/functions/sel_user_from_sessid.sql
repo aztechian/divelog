@@ -8,21 +8,27 @@
 --#########################################################################
 
 --/////////////////////////////////////////////////////////////////////////
---   FUNCTION: sel_dive_data
---   Input:    The integer representing a users' ID.
+--   FUNCTION: sel_user_from_sessid
+--   Input:    The string representing the session id to use.
 --   Output:   None.
---   Returns:  A set of records holding all of that users dive meta-data.
+--   Returns:  The user ID and name matching the session.
 --
 --/////////////////////////////////////////////////////////////////////////
-CREATE OR REPLACE FUNCTION sel_dive_data(INT) RETURNS SETOF dives AS'
+
+CREATE OR REPLACE FUNCTION sel_user_from_sessid(TEXT) RETURNS record AS '
 DECLARE
-   uid ALIAS FOR $1;
-   data dives%ROWTYPE;
+	sid ALIAS FOR $1;
+
+	date timestamp := ''now'';
+	uid record;
 BEGIN
-   FOR data in SELECT * FROM dives WHERE userid=uid ORDER BY time_in LOOP
-      return next data;
-   END LOOP;
-   RETURN;
+	SELECT INTO uid u.userid,u.username FROM sessions s, users u 
+	   WHERE s.session_id = sid 
+	   AND s.session_time > date AND s.session_user_id = u.userid;
+	IF NOT FOUND THEN
+		RETURN uid;
+	END IF;
+	RETURN uid;
 END;
 ' LANGUAGE plpgsql;
 
