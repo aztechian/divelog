@@ -73,7 +73,7 @@ else if( isset($_GET['action']) && strtoupper($_GET['action']) == 'ADD' ){
 	$_POST['start_time'] = $date .' '.$_POST['start_time'];
 	$_POST['end_time'] = $date .' '.$_POST['end_time'];
 	
-	if( $_POST['cords_lat'] == '' || $_POST['coords_long'] == ''){
+	if( $_POST['coord_lat'] == '' || $_POST['coord_lon'] == ''){
 		$_POST['coords'] = "null";
 	}
 	else{
