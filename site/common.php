@@ -96,7 +96,7 @@ class pg_db {
 		} else {
 			$this->resultSet = @pg_query($qstr);
 			if (!$this->resultSet) {
-				return $this->problem("Error during query.");
+				return $this->problem(" Error during query in pg_db:query on query string ($qstr) ");
 			}
 			return true;
 		}
@@ -213,11 +213,13 @@ class pg_db {
 			else if ($this->row == 'f') {
 				$this->row = false;
 			}
-			return $this->row;
+			//return $this->row;
+			return true;
 		}
 		else {
 			return $this->problem("Can't get result without a result set");
 		}
+		//need to rethink this one ... the return value could be false 
 	}
 
 	function finish() {
@@ -271,10 +273,13 @@ class pg_db {
 		*========================================================================
 		*/
 		$this->error = '';
-		$this->query($qstr);
-		$tempSet = $this->getSingleRow();
-		$this->finish();
-		return $tempSet;
+		if ($this->query($qstr)) {		
+			$tempSet = $this->getSingleRow();
+			$this->finish();
+			return $tempSet;	
+		}
+		return false;
+		
 	}
 
 	function queryResult($qstr, $field=0) {
@@ -290,11 +295,25 @@ class pg_db {
 		*   Limitations:  Only returns one value.
 		*========================================================================
 		*/
-		$this->error = '';
-		$this->query($qstr);
-		$this->getResult($field); //set the $this->row variable for returning
-		$this->finish();
-		return $this->row;
+		if ($this->query($qstr)) {
+			if ($this->getResult($field)) { //set the $this->row variable for returning
+				$this->finish();
+				return $this->row;
+				//careful, I may be returning a value false here.
+				//either return true for good result and read the row on the outside
+				//or read result AND error on the outside. If no error, all good ...
+			}
+			else {
+				//problem getting/interpreting result
+				echo 'GetResult call';
+				return false;
+			}
+		}
+		else {
+			//I had a problem with the result ...
+			echo 'query call';
+			return false;
+		}
 	}
 
 	function fullQuery($qstr) {

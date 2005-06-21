@@ -3,7 +3,7 @@ include_once ('config.php');
 include_once ('common.php');
 class Session {
 	var $sessionid;
-	var $loggedin;
+	var $loggedin = false;
 
 	function Session($siteconfig, $ses = '') {
 		global $db;
@@ -80,8 +80,16 @@ class Session {
 
 	function destroy($uid = '') {
 		global $db;
-		$result = $db->queryResult("SELECT do_user_logout(".$uid.") AS done", 'done');
-		return true;
+		$db->queryResult("SELECT do_user_logout('".$uid."'::text) AS done", 'done');
+		//great, the function returns NOTHING .. :)
+		if ($db->error == ''){
+			return true;
+		}
+		else {
+			//we had a problem on the db side
+			return false;
+		}
+		
 	}
 	
 	function getID(){

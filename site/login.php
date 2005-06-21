@@ -45,22 +45,33 @@ if( isset($_POST['action']) && strtoupper($_POST['action']) == 'LOGIN' ){
         }
 }
 else{   //no params, so just show the login page
+	//could also mean that I am logged in ...
 	error_log("No params recognized, show login page");
 	$stpl = new Smarty_divelog();
-        //do some testing to make sure the db stuff is on
-        if ($db->error) {
-                //echo "We have an error " . $db->error;
-                $stpl->assign('errordb', true);
-                $stpl->assign('errortext', $db->error);
-        }
+    //do some testing to make sure the db stuff is on
+    if ($db->error) {
+        $stpl->assign('errordb', true);
+        $stpl->assign('errortext', $db->error);
+    }
+    
 	if( isset($_GET['return']) && $_GET['return'] != "" ){
+		echo 'Some return stuff set';
 		$stpl->assign('return', $_GET['return']);
 	}
-	$content = $stpl->fetch('index.html');
 
+	if ($session->getAuthStatus()) {
+		//could always just forward back to index ....
+		$stpl->assign('login', "Logout");
+		$uname = $db->queryRow("SELECT * FROM sel_user_from_sessid('". $session->getID() . "') AS (userid int, username text)" );
+		$stpl->assign('name', $uname['username']);
+		$content = $stpl->fetch('index-in.html');
+	}
+	else {
+		$stpl->assign('login', "Login");
+		$content = $stpl->fetch('index.html');
+	}
 	$stpl->assign('title', "Divelog Login");
 	$stpl->assign('content', $content);
-	$stpl->assign('login', "Login");
 	$stpl->display('shell.html');
 	die('');
 }
