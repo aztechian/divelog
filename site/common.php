@@ -305,13 +305,11 @@ class pg_db {
 			}
 			else {
 				//problem getting/interpreting result
-				echo 'GetResult call';
 				return false;
 			}
 		}
 		else {
 			//I had a problem with the result ...
-			echo 'query call';
 			return false;
 		}
 	}

@@ -81,6 +81,7 @@ class Session {
 	function destroy($uid = '') {
 		global $db;
 		$db->queryResult("SELECT do_user_logout('".$uid."'::text) AS done", 'done');
+		//TODO - TASK pg_escape_string()
 		//great, the function returns NOTHING .. :)
 		if ($db->error == ''){
 			return true;

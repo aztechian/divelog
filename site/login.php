@@ -55,7 +55,7 @@ else{   //no params, so just show the login page
     }
     
 	if( isset($_GET['return']) && $_GET['return'] != "" ){
-		echo 'Some return stuff set';
+		
 		$stpl->assign('return', $_GET['return']);
 	}
 
