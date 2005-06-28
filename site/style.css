@@ -6,21 +6,27 @@ h1, h2, h3, h4 {
 body {
 	background-color: #DAE2E3;
 	font-family: Arial, Helvetica, sans-serif;
+	color: #444444;
+}
+th {
+	font-weight: bold;
 	font-size: medium;
-	font-weight: normal;
-	color: #333333;
+	color: #993300;
 }
 
 a {
-	color: #6CAFD6;
+	/*color: #6CAFD6;*/
+	color: #993300;
+	font-size: medium;
+	font-weight: 300;
 	text-decoration: none;
-	font-weight: bold;
+	font-weight: normal;
 }
 
 input {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	color: #666666;
+	color: #555555;
 	letter-spacing: 1px;
 }
 

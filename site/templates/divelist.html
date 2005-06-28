@@ -10,7 +10,7 @@
 	<th>Location</th>
      </tr>
      {section name=dives loop=$data}
-     <tr align="center" bgcolor="{cycle values="#FFFFFF, "}">
+     <tr align="center" {cycle values='bgcolor="#FFFFFF", '}>
 	<td><a href="diveedit.php?diveid={$data[dives].diveid}&action=edit">{$smarty.section.dives.rownum}</a></td>
 	<td><a href="diveedit.php?diveid={$data[dives].diveid}&action=edit">{$data[dives].time_in|date_format:"%A, %B %e, %Y"}</a></td>
 	<td><a href="diveedit.php?diveid={$data[dives].diveid}&action=edit">{$data[dives].description}</a></td>

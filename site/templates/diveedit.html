@@ -1,25 +1,31 @@
+{if $error}
+  <div align="center" class="error_msg">
+     There was an error with processing the provided data. Please check your entries and resubmit.
+  </div>
+{/if}
+
 <form name="dive" method="POST" action="{$smarty.server.PHP_SELF}?action=add">
-<div align="center">Dive date: {html_select_date time=$start_time}
+<div align="center">Dive date: {html_select_date time=$start_time month_value_format="%B"}
 <br><br>Dive Description: <input type="text" size="50" name="description" value="{$description}"></div>
 <br>
 <table align="center" width="100%">
   <tr>
     <td align="right">Surface Water Temp: </td>
-    <td><input type="text" size="3" maxlength="3" name="water_temp" value="{$water_temp}">*F</td>
+    <td><input type="text" size="3" maxlength="3" name="water_temp" value="{$water_temp}" {if $error.water_temp}style="background-color:#993300; color:#FFFFFF"{/if}>*F</td>
     <td>&nbsp;</td>
     <td align="right">Visibility: </td>
-    <td><input type="text" size="5" maxlength="4" name="vis" value="{$vis}"> ft.</td>
+    <td><input type="text" size="5" maxlength="4" name="vis" value="{$vis}" {if $error.vis}style="background-color:#993300; color:#FFFFFF"{/if}> ft.</td>
   </tr>
   <tr>
     <td align="right">Weight used: </td>
-    <td><input type="text" size="3" maxlength="2" name="weight" value="{$weight}">Lb.</td>
+    <td><input type="text" size="3" maxlength="2" name="weight" value="{$weight}" {if $error.weight}style="background-color:#993300; color:#FFFFFF"{/if}>Lb.</td>
     <td>&nbsp;</td>
     <td align="right">Wind speed: </td>
-    <td><input type="text" size="3" maxlength="3" name="winds" value="{$winds}">Mph</td>
+    <td><input type="text" size="3" maxlength="3" name="winds" value="{$winds}" {if $error.winds}style="background-color:#993300; color:#FFFFFF"{/if}>Mph</td>
   </tr>
   <tr>
     <td align="right">Wave Height: </td>
-    <td><input type="text" size="4" maxlength="2" name="waves" value="{$waves}">ft.</td>
+    <td><input type="text" size="4" maxlength="2" name="waves" value="{$waves}" {if $error.waves}style="background-color:#993300; color:#FFFFFF"{/if}>ft.</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -33,36 +39,36 @@
   </tr>
   <tr>
     <td align="right">City: </td>
-    <td><input type="text" size="15" name="city" value="{$city}"></td>
+    <td><input type="text" size="15" name="city" value="{$city}" {if $error.city}style="background-color:#993300; color:#FFFFFF"{/if}></td>
     <td>&nbsp;</td>
     <td align="right">State: </td>
-    <td><input type="text" size="15" name="state" value="{$state}"></td>
+    <td><input type="text" size="15" name="state" value="{$state}" {if $error.state}style="background-color:#993300; color:#FFFFFF"{/if}></td>
   </tr>
   <tr>
     <td align="right">Country: </td>
-    <td><input type="text" size="15" name="country" value="{$country}"></td>
+    <td><input type="text" size="15" name="country" value="{$country}" {if $error.country}style="background-color:#993300; color:#FFFFFF"{/if}></td>
     <td>&nbsp;</td>
     <td align="right">Coordinates: </td>
-    <td><input type="text" size="10" maxlength="8" name="coord_lat" value="{$coord_lat}">*Lat
-        <input type="text" size="10" maxlength="8" name="coord_lon" value="{$coord_lon}">*Lon</td>
+    <td><input type="text" size="10" maxlength="8" name="coord_lat" value="{$coord_lat}" {if $error.coords}style="background-color:#993300; color:#FFFFFF"{/if}>*Lat
+        <input type="text" size="10" maxlength="8" name="coord_lon" value="{$coord_lon}" {if $error.coords}style="background-color:#993300; color:#FFFFFF"{/if}>*Lon</td>
   </tr>
   <tr>
     <td align="right">Start time (local time): </td>
-    <td><input type="text" size="10" maxlength="8" name="start_time" value="{$start_time|date_format:"%H:%M"}">(HH:MM)</td>
+    <td><input type="text" size="10" maxlength="8" name="start_time" value="{$start_time|date_format:"%H:%M"}" {if $error.start_time}style="background-color:#993300; color:#FFFFFF"{/if}>(HH:MM)</td>
     <td>&nbsp;</td>
     <td align="right">End time (local time): </td>
-    <td><input type="text" size="10" maxlength="8" name="end_time" value="{$end_time|date_format:"%H:%M"}">(HH:MM)</td>
+    <td><input type="text" size="10" maxlength="8" name="end_time" value="{$end_time|date_format:"%H:%M"}" {if $error.end_time}style="background-color:#993300; color:#FFFFFF"{/if}>(HH:MM)</td>
   </tr>
   <tr>
     <td align="right">Depth: </td>
-    <td><input type="text" size="3" maxlength="5" name="depth" value="{$depth}">Ft</td>
+    <td><input type="text" size="3" maxlength="5" name="depth" value="{$depth}" {if $error.depth}style="background-color:#993300; color:#FFFFFF"{/if}>Ft</td>
     <td>&nbsp;</td>
     <td align="right">Bottom Time: </td>
-    <td><input type="text" size="10" maxlength="8" name="bottom_time" value="{$bottom_time|date_format:"%H:%M"}">(HH:MM)</td>
+    <td><input type="text" size="10" maxlength="8" name="bottom_time" value="{$bottom_time|date_format:"%H:%M"}" {if $error.bottom_time}style="background-color:#993300; color:#FFFFFF"{/if}>(HH:MM)</td>
   </tr>
   <tr>
   	<td align="right">Safety Stop: </td>
-  	<td><input type="text" size="3" maxlength="3" name="stop_depth" value="{$stop_depth}">Ft</td>
+  	<td><input type="text" size="3" maxlength="3" name="stop_depth" value="{$stop_depth}" {if $error.stop_depth}style="background-color:#993300; color:#FFFFFF"{/if}>Ft</td>
   	<td>&nbsp;</td>
     <td>&nbsp;</td>
     <td>&nbsp;</td>
@@ -70,7 +76,9 @@
 </table>
 <p></p>
 <div align="center">Comments:<textarea name="comments" rows="7" cols="40">{$comments}</textarea><br><br>
+  {if $diveid}
   <input type="hidden" name="diveid" value="{$diveid}">
+  {/if}
   <input type="hidden" name="uid" value="{$uid}">
   <input type="hidden" name="username" value="{$username}">
   <input type="submit" name="submit" value="{$submit}">
