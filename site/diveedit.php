@@ -191,8 +191,9 @@ else if( isset($_GET['action']) && strtoupper($_GET['action']) == 'ADD' ){
 				unset($marker);
 				break;
 			case "timestamp":
+				error_log('processing '.$col.'= '.$_POST[$val]);
 				$theTime = array();
-				if( preg_match('/(\\d){4}[-]([A-Z]){3}[-](\\d){2} (\\d){2}[:](\\d){2}[:\\d{2}]*/',$_POST[$val], $theTime) ){
+				if( preg_match('/(\\d){4}[-]([A-Z]){3}[-](\\d){1,2} (\\d){2}[:](\\d){2}[:\\d{2}]*/',$_POST[$val], $theTime) ){
 					$all_fields[$col] = "'" . $theTime[0] . "'";
 					//update $_POST field too, just in case
 					$_POST[$val] = $theTime[0];
