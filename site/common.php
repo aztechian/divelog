@@ -1,5 +1,5 @@
 <?PHP
-define('SMARTY_DIR', '/usr/local/lib/php/Smarty/');
+define('SMARTY_DIR', '/usr/lib/php/Smarty/');
 require (SMARTY_DIR.'Smarty.class.php');
 include ('config.php');
 
@@ -20,10 +20,10 @@ class Smarty_divelog extends Smarty {
 	 */
 	function Smarty_divelog() {
 		$this->Smarty();
-		$this->template_dir = '/var/www/Smarty/divelog/templates/';
-		$this->compile_dir = '/var/www/Smarty/divelog/templates_c/';
-		$this->config_dir = '/var/www/Smarty/divelog/config/';
-		$this->cache_dir = '/var/www/Smarty/divelog/cache/';
+		$this->template_dir = '/var/www/localhost/Smarty/divelog/templates/';
+		$this->compile_dir = '/var/www/localhost/Smarty/divelog/templates_c/';
+		$this->config_dir = '/var/www/localhost/Smarty/divelog/config/';
+		$this->cache_dir = '/var/www/localhost/Smarty/divelog/cache/';
 
 		$this->assign('app_name', 'divelog');
 	}
