@@ -4,7 +4,7 @@
   </div>
 {/if}
 
-<form name="dive" method="POST" action="{$smarty.server.PHP_SELF}?action=add">
+<form name="dive" method="POST" action="{$smarty.server.PHP_SELF}?action={$action}">
 <div align="center">Dive date: {html_select_date time=$start_time month_value_format="%B"}
 <br><br>Dive Description: <input type="text" size="50" name="description" value="{$description}"></div>
 <br>
@@ -82,5 +82,6 @@
   <input type="hidden" name="uid" value="{$uid}">
   <input type="hidden" name="username" value="{$username}">
   <input type="submit" name="submit" value="{$submit}">
+  <input type="submit" name="delete" value="Delete">
 </div>
 </form>

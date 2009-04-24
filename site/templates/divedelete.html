@@ -1,0 +1,18 @@
+<div align="center">
+Confirm delete of dive:
+<form action="{$Smarty.server.PHP_SELF}?confirm" method="POST">
+<table align="center">
+   <tr>
+      <td>{$date}</td>
+      <td>{$description}</td>
+      <td>{$location}</td>
+   </tr>
+</table>
+
+<input type="hidden" name="diveid" value="{$diveid}">
+Are you sure you want to delete this dive?
+<br>
+<input type="submit" name="submit" value="Delete"><input type="submit" name="cancel" value="Cancel">
+
+</form>
+</div>

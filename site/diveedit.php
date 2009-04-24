@@ -27,7 +27,7 @@ $field_types = array(
                      "location_country"=>"text",
                      "location_coords"=>"point",
                      "bottom_time"=>"interval",
-                     "safety_stop"=>"interval"
+                     "safety_stop"=>"integer"
 		);
 
 // These arrays hold the DB field names <-> web page field name mappings
@@ -86,10 +86,23 @@ $nonreqd_fields = array(
                      "safety_stop"=>"stop_depth"
                 );
 
-if( isset($_GET['action']) && strtoupper($_GET['action']) == 'UPDATE' ){
+if( isset($_POST['delete']) ){
+	$stpl = new Smarty_divelog();
+	$stpl->assign('diveid',$_POST['diveid']);
+	$stpl->assign('date',$_POST['Date_Month'].' '.$_POST['Date_Day'].', '.$_POST['Date_Year']);
+	$stpl->assign('description',$_POST['description']);
+	$stpl->assign('location',$_POST['city'].', '.$_POST['state']);
+	$content = $stpl->fetch('divedelete.html');
 
+	$stpl->assign('title',"Confirm delete for dive");
+	$stpl->assign('login', $session->getAuthStatus()? 'Logout':'Login');
+	$stpl->assign('content',$content);
+	$stpl->display('shell.html');
+	die('');
 }
-else if( isset($_GET['action']) && strtoupper($_GET['action']) == 'DELETE' ){
+else if( isset($_POST['confirm']) ){
+	$db->queryResult()
+else if( isset($_GET['action']) && strtoupper($_GET['action']) == 'UPDATE' ){
 
 }
 else if( isset($_GET['action']) && strtoupper($_GET['action']) == 'EDIT' ){
